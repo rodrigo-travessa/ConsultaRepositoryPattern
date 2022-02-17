@@ -1,24 +1,23 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Teste.Repository;
+﻿using Teste.Repository;
 using Teste.Models;
 using System.Linq;
 
 namespace Teste.Services
 {
-    public class AddConsultaService : IAddConsultaService
+    public class PacienteCriarConsultaService : IPacienteCriarConsultaService
     {
-        private readonly ITesteRepository testeRepository;
+        private readonly IPacienteRepository _pacienteRepository;
         private readonly AppDbContext _appDbContext;
 
-        public AddConsultaService(ITesteRepository testeRepository, AppDbContext appDbContext)
+        public PacienteCriarConsultaService(IPacienteRepository pacienteRepository, AppDbContext appDbContext)
         {
-            this.testeRepository = testeRepository;
+            _pacienteRepository = pacienteRepository;
             _appDbContext = appDbContext;
         }
 
         public Consulta AddConsulta(Consulta consulta)
-        {     
-                return testeRepository.AddConsulta(consulta);
+        {
+            return _pacienteRepository.AddConsulta(consulta);
         }
 
         public Consulta LastConsulta(Consulta consulta)

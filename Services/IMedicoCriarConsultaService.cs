@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Teste.Models;
+﻿using Teste.Models;
+#nullable enable
 
 namespace Teste.Services
 {
-    public interface IAddConsultaService
+    public interface IMedicoCriarConsultaService
     {
         Consulta? AddConsulta(Consulta consulta);
         public Consulta NextConsulta(Consulta consulta);

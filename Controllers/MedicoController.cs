@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Linq;
-using System.Threading.Tasks;
 using Teste.Models;
 using Teste.Repository;
 using Teste.Services;
@@ -11,52 +9,68 @@ namespace Teste.Controllers
     [Route("api/[controller]")]
     public class MedicoController : ControllerBase
     {
-        private readonly ITesteRepository testeRepository;
-        private readonly IAddConsultaService AddConsultaService;
-        public MedicoController(ITesteRepository testeRepository, IAddConsultaService AddConsultaService)
+        private readonly IMedicoRepository _medicoRepository;
+        private readonly IMedicoCriarConsultaService _medicoCriarConsultaService;
+        public MedicoController(IMedicoRepository medicoRepository, IMedicoCriarConsultaService medicoCriarConsultaService)
         {
-            this.testeRepository = testeRepository;
-            this.AddConsultaService = AddConsultaService;
+            _medicoRepository = medicoRepository;
+            _medicoCriarConsultaService = medicoCriarConsultaService;
         }
 
         [HttpGet]
-        public ActionResult GetConsultas()
+        public ActionResult BuscarConsultas()
         {
-            return Ok(testeRepository.GetConsultas());
+            return Ok(_medicoRepository.BuscarConsultas());
         }
 
         [HttpGet("{name}")]
-        public ActionResult GetConsultasByMedico(string name)
+        public ActionResult BuscarConsultasPorMedico(string name)
         {
             if (name == null || name == "")
             {
                 return BadRequest(new { message = "Nome não pode ser vazio ou nulo" });
             }
 
-            return Ok(testeRepository.GetConsultasByMedico(name));
+            return Ok(_medicoRepository.BuscarConsultasPorMedico(name));
         }
 
-        [HttpPost]
-        public ActionResult<Consulta> AddConsulta(Consulta consulta)
+        [HttpGet("{ID}")]
+        public ActionResult BuscarConsultasPorMedico(int ID)
         {
-            string ConsultaValid = AddConsultaService.ValidarConsulta(consulta);
-            if (ConsultaValid == "Ok")
+            if (ID == null)
             {
-                var result = AddConsultaService.AddConsulta(consulta);
+                return BadRequest(new { message = "ID não pode ser Nulo" });
+            }
 
-                return CreatedAtAction(nameof(AddConsulta),
+            return Ok(_medicoRepository.BuscarConsultasPorMedicoID(ID));
+        }
+
+
+
+
+
+
+        [HttpPost]
+        public ActionResult<Consulta> AdicionarConsulta(Consulta consulta)
+        {
+            string ConsultaValida = _medicoCriarConsultaService.ValidarConsulta(consulta);
+            if (ConsultaValida == "Ok")
+            {
+                var result = _medicoCriarConsultaService.AddConsulta(consulta);
+
+                return CreatedAtAction(nameof(AdicionarConsulta),
                              new { id = result }, result);
             }
             else
             {
-                return BadRequest(new { message = ConsultaValid});
+                return BadRequest(new { message = ConsultaValida});
             }
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteConsulta(int id)
+        public IActionResult DeletarConsulta(int id)
         {
-            testeRepository.DeleteConsulta(id);
+            _medicoRepository.DeletarConsulta(id);
             return Ok(new { message = $"Consulta  de ID {id}, deletada com sucesso" });
         }
 

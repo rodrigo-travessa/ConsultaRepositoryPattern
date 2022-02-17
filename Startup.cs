@@ -1,16 +1,9 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Teste.Models;
 using Teste.Repository;
 using Teste.Services;
@@ -32,8 +25,12 @@ namespace Teste
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DBConnection")));
 
-            services.AddScoped<ITesteRepository, TesteRepository>();
-            services.AddScoped<IAddConsultaService, AddConsultaService>();
+            services.AddScoped<IMedicoRepository, MedicoRepository>();
+            services.AddScoped<IPacienteRepository, PacienteRepository>();
+
+            services.AddScoped<IMedicoCriarConsultaService, MedicoCriarConsultaService>();
+            services.AddScoped<IPacienteCriarConsultaService, PacienteCriarConsultaService>();
+                        
 
             services.AddControllers();
            
