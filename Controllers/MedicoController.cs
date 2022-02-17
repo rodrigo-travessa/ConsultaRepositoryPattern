@@ -20,7 +20,7 @@ namespace Teste.Controllers
         }
 
         [HttpGet]
-        public  ActionResult GetConsultas()
+        public ActionResult GetConsultas()
         {
             return Ok(testeRepository.GetConsultas());
         }
@@ -30,7 +30,7 @@ namespace Teste.Controllers
         {
             if (name == null || name == "")
             {
-                return BadRequest(new {message = "Nome não pode ser vazio ou nulo" });
+                return BadRequest(new { message = "Nome não pode ser vazio ou nulo" });
             }
 
             return Ok(testeRepository.GetConsultasByMedico(name));
@@ -38,18 +38,18 @@ namespace Teste.Controllers
 
         [HttpPost]
         public ActionResult<Consulta> AddConsulta(Consulta consulta)
-        {  
+        {
+            string ConsultaValid = AddConsultaService.ValidarConsulta(consulta);
+            if (ConsultaValid == "Ok")
+            {
+                var result = AddConsultaService.AddConsulta(consulta);
 
-            var result = AddConsultaService.AddConsulta(consulta);
-
-            if (result != null)
-            {      
                 return CreatedAtAction(nameof(AddConsulta),
-                        new { id = result}, result);
+                             new { id = result }, result);
             }
             else
             {
-                return BadRequest(new { message = "Esse médico já tem consulta nesse horário" });
+                return BadRequest(new { message = ConsultaValid});
             }
         }
 
@@ -57,7 +57,7 @@ namespace Teste.Controllers
         public IActionResult DeleteConsulta(int id)
         {
             testeRepository.DeleteConsulta(id);
-            return Ok( new { message = $"Consulta  de ID {id}, deletada com sucesso" });
+            return Ok(new { message = $"Consulta  de ID {id}, deletada com sucesso" });
         }
 
 

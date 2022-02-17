@@ -33,16 +33,17 @@ namespace Teste.Controllers
         [HttpPost]
         public ActionResult<Consulta> AddConsulta(Consulta consulta)
         {
-            var result = AddConsultaService.AddConsulta(consulta);
-
-            if (result != null)
+            string ConsultaValid = AddConsultaService.ValidarConsulta(consulta);
+            if (ConsultaValid == "Ok")
             {
+                var result = AddConsultaService.AddConsulta(consulta);
+
                 return CreatedAtAction(nameof(AddConsulta),
-                        new { id = result }, result);
+                             new { id = result }, result);
             }
             else
             {
-                return BadRequest(new { message = "Esse médico já tem consulta nesse horário" });
+                return BadRequest(new { message = ConsultaValid });
             }
 
         }

@@ -17,20 +17,10 @@ namespace Teste.Services
         }
 
         public Consulta AddConsulta(Consulta consulta)
-        {
-            if (consulta.HorarioStart < System.DateTime.Now)
-            {
-                return null;
-            }
-
-            if (LastConsulta(consulta) == null && NextConsulta(consulta) == null)
-            {   
+        {     
                 return testeRepository.AddConsulta(consulta);
-            }
-
-            return null;
-
         }
+
         public Consulta LastConsulta(Consulta consulta)
         {
             IQueryable<Consulta> query = _appDbContext.ConsultaDB;
@@ -51,6 +41,37 @@ namespace Teste.Services
                          .Where(x => x.MedicoID == consulta.MedicoID);
 
             return query.FirstOrDefault();
+        }
+
+        public string ValidarConsulta(Consulta consulta)
+        {
+            if (consulta.HorarioStart < System.DateTime.Now)
+            {
+                return "Horario de Início não pode ser anterior ao momento da marcação";
+            }
+            if (LastConsulta(consulta) != null || NextConsulta(consulta) != null)
+            {
+                return "Conflito de Horário, já existe consulta com esse médico nesse horário";
+            }
+
+            IQueryable<Medico> queryMedico = _appDbContext.MedicosDB
+                    .Where(x => x.MedicoID == consulta.MedicoID);
+
+            if (queryMedico.FirstOrDefault() == null)
+            {
+                return "Não Existe um Médico com esse ID";
+            }
+
+            IQueryable<Paciente> queryPaciente = _appDbContext.PacientesDB
+                    .Where(x => x.PacienteID == consulta.PacienteID);
+
+            if (queryPaciente.FirstOrDefault() == null)
+            {
+                return "Não Existe um Paciente com esse Id";
+            }
+
+
+            return "Ok";
         }
     }
 }
