@@ -5,6 +5,8 @@ namespace Teste.Services
 {
     public interface IAddConsultaService
     {
-        bool AddConsulta(Consulta consulta);
+        Consulta? AddConsulta(Consulta consulta);
+        public Consulta NextConsulta(Consulta consulta);
+        public Consulta LastConsulta(Consulta consulta);
     }
 }

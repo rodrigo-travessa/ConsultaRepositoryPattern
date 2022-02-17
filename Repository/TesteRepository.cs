@@ -72,26 +72,6 @@ namespace Teste.Repository
 
             return result;
         }
-        public  Consulta LastConsulta(Consulta consulta)
-        {
-            IQueryable<Consulta> query = _appDbContext.ConsultaDB;
-                
-                query = query.Where(x => x.HorarioStart <= consulta.HorarioStart)
-                             .Where(x => x.HorarioFinish > consulta.HorarioStart)
-                             .Where(x => x.MedicoID == consulta.MedicoID);
-
-            return query.FirstOrDefault();            
-        }
-
-        public Consulta NextConsulta(Consulta consulta)
-        {
-            IQueryable<Consulta> query = _appDbContext.ConsultaDB;
-
-            query = query.Where(x => x.HorarioStart >= consulta.HorarioStart)
-                         .Where(x => x.HorarioStart < consulta.HorarioFinish)
-                         .Where(x => x.MedicoID == consulta.MedicoID);
-
-            return query.FirstOrDefault();
-        }
+        
     }
 }

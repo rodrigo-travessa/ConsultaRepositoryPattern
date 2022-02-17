@@ -38,16 +38,14 @@ namespace Teste.Controllers
 
         [HttpPost]
         public ActionResult<Consulta> AddConsulta(Consulta consulta)
-        {
-            if (consulta.HorarioStart < System.DateTime.Now)
-            {
-                return BadRequest(new { message = "Não pode marcar consulta anterior ao momento presente" });
-            }
-                       
+        {  
+
             var result = AddConsultaService.AddConsulta(consulta);
-            if (result == true)
-            {
-                return Ok(new {message = "Consulta criada com sucesso"});
+
+            if (result != null)
+            {      
+                return CreatedAtAction(nameof(AddConsulta),
+                        new { id = result}, result);
             }
             else
             {

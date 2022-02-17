@@ -31,51 +31,21 @@ namespace Teste.Controllers
         }
 
         [HttpPost]
-
         public ActionResult<Consulta> AddConsulta(Consulta consulta)
         {
-
-            if (consulta.HorarioStart < System.DateTime.Now)
-            {
-                return BadRequest(new { message = "Não pode marcar consulta anterior ao momento presente" });
-            }
-
             var result = AddConsultaService.AddConsulta(consulta);
-            if (result == true)
+
+            if (result != null)
             {
-                return Ok(new { message = "Consulta criada com sucesso" });
+                return CreatedAtAction(nameof(AddConsulta),
+                        new { id = result }, result);
             }
             else
             {
                 return BadRequest(new { message = "Esse médico já tem consulta nesse horário" });
             }
 
-            //try
-            //{
-            //    var LastConsulta = testeRepository.LastConsulta(consulta);
-            //    var NextConsulta = testeRepository.NextConsulta(consulta);
-
-            //    if (LastConsulta == null &&  NextConsulta == null)
-            //    {
-            //        var createdConsulta = testeRepository.AddConsulta(consulta);
-
-            //        return CreatedAtAction(nameof(AddConsulta),
-            //            new { id = createdConsulta}, createdConsulta);
-            //    }
-            //    else
-            //    {
-            //    return NotFound();
-            //    }
-
-
-            //}
-            //catch (System.Exception)
-            //{
-            //    return BadRequest();
-            //}
-
         }
-
 
     }
 }
