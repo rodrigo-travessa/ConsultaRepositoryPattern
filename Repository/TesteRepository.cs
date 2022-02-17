@@ -60,6 +60,10 @@ namespace Teste.Repository
         {
             _appDbContext.ConsultaDB.Add(consulta);
             _appDbContext.SaveChanges();
+
+            // esse return era usado com o código que está comentado no Controller Paciente, ele retornava um OBJ consulta
+            // com as informações da consulta marcada pra uso pelo consumidor da API caso fizesse sentido.
+
             var result = _appDbContext.ConsultaDB
                 .Include(x => x.Medico)
                 .Include(x => x.Paciente)
