@@ -17,16 +17,14 @@ namespace Teste.Services
         public bool AddConsulta(Consulta consulta)
         {
 
-            // validar consulta por médico/paciente nesses horários.
+            
             var LastConsulta = testeRepository.LastConsulta(consulta);
             var NextConsulta = testeRepository.NextConsulta(consulta);
 
             if (LastConsulta == null && NextConsulta == null)
             {
-                var createdConsulta = testeRepository.AddConsulta(consulta);
-
-                // alternativa seria retornar um 201 created successfully.
-
+                testeRepository.AddConsulta(consulta);              
+                
                 return true;
             }
 
