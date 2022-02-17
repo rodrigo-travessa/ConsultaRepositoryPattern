@@ -72,9 +72,10 @@ namespace Teste.Repository
 
             IQueryable<Consulta> query = _appDbContext.ConsultaDB;
                 
-                query = (IQueryable<Consulta>)query.
-                Where(x => x.HorarioStart <= consulta.HorarioStart).
-                Where(x => x.HorarioFinish > consulta.HorarioStart);
+                query = query
+                .Where(x => x.HorarioStart <= consulta.HorarioStart)
+                .Where(x => x.HorarioFinish > consulta.HorarioStart)
+                .Where(x => x.MedicoID == consulta.MedicoID);
 
             return query.FirstOrDefault();            
         }
@@ -84,9 +85,10 @@ namespace Teste.Repository
 
             IQueryable<Consulta> query = _appDbContext.ConsultaDB;
 
-            query = (IQueryable<Consulta>)query.
-                Where(x => x.HorarioStart >= consulta.HorarioStart).
-                Where(x => x.HorarioStart < consulta.HorarioFinish);
+            query = query
+                .Where(x => x.HorarioStart >= consulta.HorarioStart)
+                .Where(x => x.HorarioStart < consulta.HorarioFinish)
+                .Where(x => x.MedicoID == consulta.MedicoID);
 
             return query.FirstOrDefault();
         }

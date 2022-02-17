@@ -25,6 +25,11 @@ namespace Teste.Controllers
         [HttpGet("{name}")]
         public ActionResult GetConsultasByMedico(string name)
         {
+            if (name == null || name == "")
+            {
+                return BadRequest(new {message = "Nome não pode ser vazio ou nulo" });
+            }
+
             return Ok(testeRepository.GetConsultasByMedico(name));
         }
 
@@ -44,7 +49,8 @@ namespace Teste.Controllers
                     return CreatedAtAction(nameof(AddConsulta),
                         new { id = createdConsulta}, createdConsulta);
                 }
-                return StatusCode(202, new {message = "Conflito de horario na criação de consulta"});  
+
+                return StatusCode(202, new {message = "Conflito de horario na criação da consulta"});  
                 
 
             }
