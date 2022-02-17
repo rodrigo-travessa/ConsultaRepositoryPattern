@@ -13,6 +13,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Teste.Models;
 using Teste.Repository;
+using Teste.Services;
 
 namespace Teste
 {
@@ -32,6 +33,7 @@ namespace Teste
                 options.UseSqlServer(Configuration.GetConnectionString("DBConnection")));
 
             services.AddScoped<ITesteRepository, TesteRepository>();
+            services.AddScoped<IAddConsultaService, AddConsultaService>();
 
             services.AddControllers();
            

@@ -16,19 +16,6 @@ namespace Teste.Repository
             this._appDbContext =  appDbContext;
         }
 
-        public Consulta AddConsulta(Consulta consulta)
-        {
-
-            _appDbContext.ConsultaDB.Add(consulta);
-            _appDbContext.SaveChanges();
-            var result = _appDbContext.ConsultaDB
-                .Include(x => x.Medico)
-                .Include(x => x.Paciente)
-                .Where(x => x.IdConsulta == consulta.IdConsulta)
-                .FirstOrDefault();
-            return result ;
-        }
-
         public void DeleteConsulta(int consultaid)
         {
             var result = _appDbContext.ConsultaDB
@@ -67,28 +54,38 @@ namespace Teste.Repository
             return query.Include(x => x.Medico).Include(x => x.Paciente).ToList();
         }
 
+
+
+        public Consulta AddConsulta(Consulta consulta)
+        {
+            _appDbContext.ConsultaDB.Add(consulta);
+            _appDbContext.SaveChanges();
+            var result = _appDbContext.ConsultaDB
+                .Include(x => x.Medico)
+                .Include(x => x.Paciente)
+                .Where(x => x.IdConsulta == consulta.IdConsulta)
+                .FirstOrDefault();
+
+            return result;
+        }
         public  Consulta LastConsulta(Consulta consulta)
         {
-
             IQueryable<Consulta> query = _appDbContext.ConsultaDB;
                 
-                query = query
-                .Where(x => x.HorarioStart <= consulta.HorarioStart)
-                .Where(x => x.HorarioFinish > consulta.HorarioStart)
-                .Where(x => x.MedicoID == consulta.MedicoID);
+                query = query.Where(x => x.HorarioStart <= consulta.HorarioStart)
+                             .Where(x => x.HorarioFinish > consulta.HorarioStart)
+                             .Where(x => x.MedicoID == consulta.MedicoID);
 
             return query.FirstOrDefault();            
         }
 
         public Consulta NextConsulta(Consulta consulta)
         {
-
             IQueryable<Consulta> query = _appDbContext.ConsultaDB;
 
-            query = query
-                .Where(x => x.HorarioStart >= consulta.HorarioStart)
-                .Where(x => x.HorarioStart < consulta.HorarioFinish)
-                .Where(x => x.MedicoID == consulta.MedicoID);
+            query = query.Where(x => x.HorarioStart >= consulta.HorarioStart)
+                         .Where(x => x.HorarioStart < consulta.HorarioFinish)
+                         .Where(x => x.MedicoID == consulta.MedicoID);
 
             return query.FirstOrDefault();
         }

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Teste.Models;
 using Teste.Repository;
+using Teste.Services;
 
 namespace Teste.Controllers
 {
@@ -11,9 +12,11 @@ namespace Teste.Controllers
     public class MedicoController : ControllerBase
     {
         private readonly ITesteRepository testeRepository;
-        public MedicoController(ITesteRepository testeRepository)
+        private readonly IAddConsultaService AddConsultaService;
+        public MedicoController(ITesteRepository testeRepository, IAddConsultaService AddConsultaService)
         {
             this.testeRepository = testeRepository;
+            this.AddConsultaService = AddConsultaService;
         }
 
         [HttpGet]
@@ -36,35 +39,27 @@ namespace Teste.Controllers
         [HttpPost]
         public ActionResult<Consulta> AddConsulta(Consulta consulta)
         {
-            try
+            if (consulta.HorarioStart < System.DateTime.Now)
             {
-                // validar consulta por médico/paciente nesses horários.
-                var LastConsulta = testeRepository.LastConsulta(consulta);
-                var NextConsulta = testeRepository.NextConsulta(consulta);
-
-                if (LastConsulta == null && NextConsulta == null)
-                {
-                    var createdConsulta = testeRepository.AddConsulta(consulta);
-
-                    return CreatedAtAction(nameof(AddConsulta),
-                        new { id = createdConsulta}, createdConsulta);
-                }
-
-                return StatusCode(202, new {message = "Conflito de horario na criação da consulta"});  
-                
-
+                return BadRequest(new { message = "Não pode marcar consulta anterior ao momento presente" });
             }
-            catch (System.Exception)
+                       
+            var result = AddConsultaService.AddConsulta(consulta);
+            if (result == true)
             {
-                return BadRequest();
+                return Ok(new {message = "Consulta criada com sucesso"});
             }
-
+            else
+            {
+                return BadRequest(new { message = "Esse médico já tem consulta nesse horário" });
+            }
         }
 
         [HttpDelete("{id}")]
-        public void DeleteConsulta(int id)
+        public IActionResult DeleteConsulta(int id)
         {
             testeRepository.DeleteConsulta(id);
+            return Ok( new { message = $"Consulta  de ID {id}, deletada com sucesso" });
         }
 
 
