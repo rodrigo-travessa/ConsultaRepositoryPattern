@@ -10,8 +10,6 @@ namespace Teste.Repository
         IEnumerable<Consulta> GetConsultasByMedico(string MedicoName);
         IEnumerable<Consulta> GetConsultasByPaciente(string PacienteName);
         Consulta AddConsulta(Consulta consulta);
-        void DeleteConsulta(int consultaid);
-        Consulta NextConsulta(Consulta consulta);
-        Consulta LastConsulta(Consulta consulta);
+        void DeleteConsulta(int consultaid);        
     }
 }
