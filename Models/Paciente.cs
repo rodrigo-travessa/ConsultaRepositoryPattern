@@ -1,8 +1,10 @@
-﻿namespace Teste.Models
+﻿using Teste.RepoPattern;
+
+namespace Teste.Models
 {
-    public class Paciente
+    public class Paciente : Entity
     {
-        public int PacienteID { get; set; } 
-        public string PacienteName { get; set; }
+        public int Id { get; set; } 
+        public string Nome { get; set; }
     }
 }

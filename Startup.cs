@@ -5,7 +5,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Teste.Models;
-using Teste.Repository;
+using Teste.RepoPattern;
+using Teste.RepoPattern.Services.Implementations;
+using Teste.RepoPattern.Services.Interfaces;
 using Teste.Services;
 
 namespace Teste
@@ -25,11 +27,15 @@ namespace Teste
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DBConnection")));
 
-            services.AddScoped<IMedicoRepository, MedicoRepository>();
-            services.AddScoped<IPacienteRepository, PacienteRepository>();
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddScoped(typeof(IService<>), typeof(Service<>));
 
-            services.AddScoped<IMedicoCriarConsultaService, MedicoCriarConsultaService>();
-            services.AddScoped<IPacienteCriarConsultaService, PacienteCriarConsultaService>();
+            //services.AddScoped<IPacienteService, PacienteService>();
+            //services.AddScoped<IMedicoService, MedicoService>();
+            //services.AddScoped<IConsultaService, ConsultaService>();
+            
+            //services.AddScoped<IPacienteRepository, PacienteRepository>();
+            //services.AddScoped<IPacienteService, PacienteCService>();
                         
 
             services.AddControllers();
