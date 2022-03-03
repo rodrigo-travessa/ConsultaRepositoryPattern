@@ -1,13 +1,18 @@
-﻿using Teste.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using Teste.Models;
 
 namespace Teste.RepoPattern.Repositories
 {
-    public class ConsultaRepository : Repository<Consulta>
+    public class ConsultaRepository : Repository<Consulta> , IConsultaRepository
     {
-        public ConsultaRepository(AppDbContext context) : base(context)
+        public ConsultaRepository(AppDbContext _appDbContext) : base(_appDbContext)
         {
-
         }
 
+        public override IQueryable<Consulta> GetAll()
+        {
+            return appDbContext.Set<Consulta>().Include(x => x.Medico).Include(x => x.Paciente);                
+        }
     }
 }

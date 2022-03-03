@@ -24,7 +24,7 @@ namespace Teste.RepoPattern
             DbSet.Remove(entity);
             appDbContext.SaveChanges();
         }
-        public IQueryable<T> GetAll()
+        public virtual IQueryable<T> GetAll()
         {
             return DbSet;
         }

@@ -1,6 +1,5 @@
 ﻿using Teste.Models;
 using Teste.RepoPattern;
-using Teste.RepoPattern.Services.Implementations;
 
 namespace Teste.Services
 {
@@ -10,8 +9,9 @@ namespace Teste.Services
 
         public MedicoService(IMedicoRepository repository) : base(repository)
         {
-
         }
+
+
 
 
     }

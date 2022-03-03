@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Teste.Models;
-using Teste.RepoPattern.Services.Interfaces;
 
 
 namespace Teste.Services

@@ -2,9 +2,9 @@
 
 namespace Teste.RepoPattern.Repositories
 {
-    public class MedicoRepository : Repository<Medico>
+    public class MedicoRepository : Repository<Medico> , IMedicoRepository
     {
-        public MedicoRepository(AppDbContext context) : base(context)
+        public MedicoRepository(AppDbContext appDbContext) : base(appDbContext)
         {
             
         }

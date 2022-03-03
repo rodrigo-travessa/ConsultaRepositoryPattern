@@ -1,17 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
 using Teste.Models;
 using Teste.RepoPattern;
-using Teste.RepoPattern.Services.Implementations;
 
 namespace Teste.Services
 {
     public class ConsultaService : Service<Consulta>, IConsultaService
     {
-        private readonly IConsultaRepository _repository;
-
-        public ConsultaService(IConsultaRepository repository) : base(repository)
+        
+        public ConsultaService(IConsultaRepository _repository) : base(_repository)
         {
+        }
 
+        public override List<Consulta> GetAllService()
+        {
+            return _repository.GetAll().ToList();
         }
 
         public List<Consulta> BuscarConsultasPorMedico(int id)

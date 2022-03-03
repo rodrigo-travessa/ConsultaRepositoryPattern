@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using Teste.Models;
-using Teste.RepoPattern.Services.Interfaces;
-#nullable enable
+﻿using Teste.Models;
+
 
 namespace Teste.Services
 {

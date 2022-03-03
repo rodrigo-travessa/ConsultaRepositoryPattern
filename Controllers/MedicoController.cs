@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Teste.Services;
-using Teste.RepoPattern.Repositories;
-using Teste.RepoPattern.Services;
-using Teste.RepoPattern.Services.Interfaces;
 using Teste.Models;
 using System.Linq;
 using System.Collections.Generic;
@@ -14,9 +11,9 @@ namespace Teste.Controllers
     public class MedicoController : ControllerBase
     {
         private readonly IService<Medico> medicoService;
-        private readonly IService<Consulta> consultaService;
+        private readonly IConsultaService consultaService;
 
-        public MedicoController(IService<Medico> medicoService, IService<Consulta> consultaService)
+        public MedicoController(IService<Medico> medicoService, IConsultaService consultaService)
         {
             this.medicoService = medicoService;
             this.consultaService = consultaService;
@@ -25,31 +22,15 @@ namespace Teste.Controllers
         [HttpGet]
         public List<Consulta> BuscarTodasConsultas()
         {
+
             return consultaService.GetAllService();
         }
 
-
-        //private readonly IMedicoRepository _medicoRepository;
-        //private readonly IMedicoService _medicoCriarConsultaService;
-        //private readonly IRepository<Medico> _medicoRepoPattern;
-        //public MedicoController(IMedicoRepository medicoRepository, 
-        //    IMedicoService medicoCriarConsultaService,
-        //    IRepository<Medico> medicoRepoPattern)
-
-        //{
-        //    _medicoRepository = medicoRepository;
-        //    _medicoCriarConsultaService = medicoCriarConsultaService;
-        //    _medicoRepoPattern = medicoRepoPattern;
-        //}
-
-        //[HttpGet]
-        //public ActionResult BuscarConsultas()
-        //{
-        //    return Ok(_medicoRepository.BuscarConsultas());
-        //}
-
-        //[HttpGet("{name}")]
-        //public ActionResult BuscarConsultasPorMedico(string name)
+        [HttpGet("{id}")]
+        public List<Consulta> BuscarConsultaPorID(int id)
+        {            
+            return consultaService.GetAllService().Where(x => x.MedicoID == id).ToList();
+        }
         //{
         //    if (name == null || name == "")
         //    {

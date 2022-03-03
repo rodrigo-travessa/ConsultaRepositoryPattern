@@ -1,6 +1,6 @@
 ﻿using Teste.Models;
 using Teste.RepoPattern;
-using Teste.RepoPattern.Services.Implementations;
+
 
 namespace Teste.Services
 {

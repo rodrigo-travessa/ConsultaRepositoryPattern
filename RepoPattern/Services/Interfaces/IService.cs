@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Teste.RepoPattern.Services.Interfaces
+namespace Teste.Services
 {
     public interface IService<T> where T : class
     {

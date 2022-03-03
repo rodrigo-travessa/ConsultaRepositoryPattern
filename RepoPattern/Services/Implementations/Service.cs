@@ -1,14 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Teste.Models;
-using Teste.RepoPattern.Services.Interfaces;
+using Teste.RepoPattern;
 
-namespace Teste.RepoPattern.Services.Implementations
+namespace Teste.Services
 {
     public class Service<T> : IService<T> where T : class
     {
 
-        private readonly IRepository<T> _repository;
+        protected readonly IRepository<T> _repository;
 
         public Service(IRepository<T> repository)
         {
@@ -25,7 +24,7 @@ namespace Teste.RepoPattern.Services.Implementations
             _repository.Delete(entity);
         }
 
-        public List<T> GetAllService()
+        public virtual List<T> GetAllService()
         {
             return _repository.GetAll().ToList();
         }

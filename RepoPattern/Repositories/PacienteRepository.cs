@@ -2,9 +2,9 @@
 
 namespace Teste.RepoPattern.Repositories
 {
-    public class PacienteRepository : Repository<Paciente>
+    public class PacienteRepository : Repository<Paciente> , IPacienteRepository
     {
-        public PacienteRepository(AppDbContext context) : base(context)
+        public PacienteRepository(AppDbContext appDbContext) : base(appDbContext)
         {
 
         }
