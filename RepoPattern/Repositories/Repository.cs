@@ -19,9 +19,10 @@ namespace Teste.RepoPattern
             DbSet.Add(entity);
             appDbContext.SaveChanges();
         }
-        public void Delete(T entity)
+        public void Delete(int id)
         {
-            DbSet.Remove(entity);
+            var target = DbSet.Find(id);
+            DbSet.Remove(target);
             appDbContext.SaveChanges();
         }
         public virtual IQueryable<T> GetAll()

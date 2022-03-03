@@ -19,9 +19,9 @@ namespace Teste.Services
             _repository.Adicionar(entity);            
         }
 
-        public void DeleteService(T entity)
+        public void DeleteService(int id)
         {
-            _repository.Delete(entity);
+            _repository.Delete(id);
         }
 
         public virtual List<T> GetAllService()
