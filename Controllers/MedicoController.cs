@@ -19,6 +19,14 @@ namespace Teste.Controllers
 			this.consultaService = consultaService;
 		}
 
+		
+		///  Esse controlador tem que possuir as seguintes funções
+		///  1- Adicionar consulta com validações pra não marcar consultas duplicadas.
+		///  2- Buscar Todas as consultas
+		///  3- Buscar Consultas por ID do Médico.
+		///  (Bônus) - Buscar Consultas por Nome do Médico.
+		
+
 		[HttpGet]
 		public List<Consulta> BuscarTodasConsultas()
 		{

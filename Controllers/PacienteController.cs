@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-
+using System.Collections.Generic;
+using System.Linq;
+using Teste.Models;
+using Teste.Services;
 
 namespace Teste.Controllers
 {
@@ -7,50 +10,47 @@ namespace Teste.Controllers
     [Route("api/[controller]")]
     public class PacienteController : ControllerBase
     {
-        //private readonly IPacienteRepository _pacienteRepository;
-        //private readonly IPacienteService _pacienteCriarConsultaService;
-        //public PacienteController(IPacienteRepository PacienteRepository, IPacienteService pacienteCriarConsultaService)
-        //{
-        //    _pacienteRepository = PacienteRepository;
-        //    _pacienteCriarConsultaService = pacienteCriarConsultaService;
-        //}
+		private readonly IService<Paciente> pacienteService;
+		private readonly IConsultaService consultaService;
 
-        //[HttpGet]
-        //public ActionResult BuscarConsultas()
-        //{
-        //    return Ok(_pacienteRepository.BuscarConsultas());
-        //}
-
-        //[HttpGet("{name}")]
-        //public ActionResult BuscarConsultasPorPaciente(string name)
-        //{
-        //    return Ok(_pacienteRepository.BuscarConsultasPorPaciente(name));
-        //}
-
-        //[HttpGet("{ID}")]
-        //public ActionResult BuscarConsultasPorPacienteID(int ID)
-        //{
-        //    return Ok(_pacienteRepository.BuscarConsultasPorPacienteID(ID));
-        //}
+		public PacienteController(IService<Paciente> pacienteService, IConsultaService consultaService)
+		{
+			this.pacienteService = pacienteService;
+			this.consultaService = consultaService;
+		}
 
 
-        //[HttpPost]
-        //public ActionResult<Consulta> AddConsulta(Consulta consulta)
-        //{
-        //    string ConsultaValid = _pacienteCriarConsultaService.ValidarConsulta(consulta);
-        //    if (ConsultaValid == "Ok")
-        //    {
-        //        var result = _pacienteCriarConsultaService.AddConsulta(consulta);
+		///  Esse controlador tem que possuir as seguintes funções
+		///  1- Adicionar consulta com validações pra não marcar consultas duplicadas.
+		///  2- Buscar Todas as consultas
+		///  3- Buscar Consultas por ID do Médico.
+		///  (Bônus) - Buscar Consultas por Nome do Médico.
 
-        //        return CreatedAtAction(nameof(AddConsulta),
-        //                     new { id = result }, result);
-        //    }
-        //    else
-        //    {
-        //        return BadRequest(new { message = ConsultaValid });
-        //    }
 
-        //}
+		[HttpGet]
+		public List<Consulta> BuscarTodasConsultas()
+		{
+			return consultaService.GetAllService();
+		}
 
-    }
+		[HttpGet("{id}")]
+		public List<Consulta> BuscarConsultaPorID(int id)
+		{
+			return consultaService.GetAllService().Where(x => x.PacienteID == id).ToList();
+		}
+
+		[HttpPost]
+		public void AdicionarConsulta(Consulta consulta)
+		{
+			consultaService.AdicionarService(consulta);
+		}
+
+		[HttpDelete("{id}")]
+		public void DeletarConsulta(int id)
+		{
+			consultaService.DeleteService(id);
+		}
+
+
+	}
 }

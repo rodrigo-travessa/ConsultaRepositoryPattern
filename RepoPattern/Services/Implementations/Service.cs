@@ -14,7 +14,7 @@ namespace Teste.Services
             _repository = repository;
         }
 
-        public void AdicionarService(T entity)
+        public virtual void AdicionarService(T entity)
         {
             _repository.Adicionar(entity);            
         }
