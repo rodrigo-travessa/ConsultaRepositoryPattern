@@ -1,62 +1,10 @@
-# netcore-test
+Uma API desenvolvida pra resolver o teste do Albert Einstein https://github.com/HIAE/netcore-test em padrão Repository.
 
-## Bem vindx ao teste de backend do Albert Einstein!
-##### Leia com calma e quantas vezes quiser para que não deixar passar nada.
-##### E vem com o pai que você passa de ano... :P
+Nesse teste o desafio é criar uma API que permita marcação de consultas através de 2 Endpoints que reutilizem o mesmo service. Tanto através do endpoint /medicos quanto /pacientes, com checagem de conflitos de horários, para que nenhum médico ou paciente tenha 2 consultas que conflitem.
 
-<br/>
+Para suportar maior flexibilidade, eu optei por não designar uma duração fixa para as consultas, permitindo que qualquer médico ao marcar escolhesse um horário de início e uma duração, ao invés de criar "slots" ou "vagas" de 1 hora para cada médico ao longo do dia.
 
-Nossx ~~guru do backend~~ equipe quer que você desenvolva SÓ dois serviços. Sem exageros. Dois tá bom!
+A ideia de separar o projeto em camadas de serviços e repositórios, juntamente com implementação de repositórios e serviços genéricos foi para aumentar a flexibilidade do código, facilitando o reúso ou substituição caso seja necessário.
 
-1. Serviço de médicos ~~Nossa que previsivel, né?~~
+Através dessa estrutura podemos ter um endpoint, chamando um serviço, esse serviço realiza uma validação, ou manipulação dos dados recebidos, chama então o repository, que é quem faz o acesso à Database, no caso de se mudar de uma DB para outra, nós só precisaríamos alterar essa camada de repositório, preservando o controller e o service. 
 
-2. Serviço de pacientes ~~Sim, também achei migxs.~~
-
-<br/>
-
-#### Serviço de médicos:
-- Deve ser possível consultar consultas marcadas por médico;
-- Deve ser possível marcar consultas;
-- O serviço não deve permitir marcar consultas com o mesmo médico no mesmo horário;
-
-<br/>
-
-#### Serviço de pacientes:
-- Deve ser possível marcar consultas, através do módulo de médicos;
-- Deve ser possível consultar consultas por paciente;
-
-<br/>
-
-#### O que esperamos que você não esqueça de usar (requisitos):
-- Deve ser desenvolvido em C# .net Core *(fala sério, show de bola né)*;
-- Os dados devem ser persistidos em banco de dados MSSQL Server;
-- O acesso a dados deve ser feito utilizando o Entity Framework Core;
-- Utilize os padrões que você se sentir mais confortável mas mantenha o código limpo *(Queremos que você faça o teste como você gostaria de trabalhar)*;
-- Utilize os princípios SOLID;
-- Teste seu código, desenvolva testes usando as técnicas em que estiver mais familiarizado *(Não precisa inventar moda pra fazer bonito, faça bonito com o que você sabe ;D)*.
-
-<br/>
-
-#### Se por acaso você terminar em tempo record e quiser se destacar (opcionais):
-- Avalie a concorrência na criação de consultas ou exames;
-- Usar containers Docker;
-- Criar um módulo de exames, onde pode solicitar exames e o paciente deve ser avisado da solicitação;
-- Fazer log do que acontece nos módulos;
-- Usar mensageria para comunicação entre módulos, se achar necessário;
-- Usar orquestradores para os containers;
-
-<br/>
-
-*Dê o seu melhor.*
-
-*Code como você gostaria de trabalhar*
-
-*Faça um projeto que você se orgulhe*
-
-*Venha preparado para as perguntas que faremos sobre o seu projeto porque nós gostamos de falar sobre código e arquitetura ;)*
-
-<br/>
-
-*Faça fork deste repositório para vermos seu processo de desenvolvimento*
-
-**BOA SORTE!**
